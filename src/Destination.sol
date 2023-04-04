@@ -59,7 +59,7 @@ contract Destination is NonblockingLzApp {
     function _nonblockingLzReceive(
         uint16 _srcChainId, 
         bytes memory _srcAddress, 
-        uint64 _nonce, 
+        uint64, 
         bytes memory _payload
     ) internal override {
         require(src[_srcChainId].allowed, "Invalid Chain");
@@ -114,10 +114,10 @@ contract Destination is NonblockingLzApp {
 
     function sgReceive(
         uint16 _chainId, 
-        bytes memory _srcAddress, 
-        uint _nonce, 
+        bytes memory, 
+        uint256, 
         address _token, 
-        uint amountLD, 
+        uint256 amountLD, 
         bytes memory _payload
     ) external {
         require(src[_chainId].allowed == true, "Invalid Chain");
@@ -134,7 +134,7 @@ contract Destination is NonblockingLzApp {
     // Getter Functions
 
 
-    function estimateFee(uint16 _dstChainId, bool _useZro, bytes memory PAYLOAD, bytes calldata _adapterParams) public view returns (uint nativeFee, uint zroFee) {
+    function estimateFee(uint16 _dstChainId, bool _useZro, bytes memory PAYLOAD, bytes calldata _adapterParams) public view returns (uint256 nativeFee, uint256 zroFee) {
         return lzEndpoint.estimateFees(_dstChainId, address(this), PAYLOAD, _useZro, _adapterParams);
     }
 
