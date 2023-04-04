@@ -2,7 +2,8 @@
 pragma solidity ^0.8.9;
 
 import "./lzApp/NonblockingLzApp.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "solmate/tokens/ERC20.sol";
+import "solmate/auth/Owned.sol";
 import "./interfaces/IStargateRouter.sol";
 
 contract Source is NonblockingLzApp {
@@ -11,7 +12,7 @@ contract Source is NonblockingLzApp {
     uint256 dstPoolId;
     // Destination Contract Address
     address srcAddress;
-    IERC20 token;
+    ERC20 token;
 
     IStargateRouter public stargateRouter;
 
@@ -23,9 +24,9 @@ contract Source is NonblockingLzApp {
         uint256 _srcPoolId,
         uint256 _dstPoolId,
         address _srcAddress,
-        IERC20 _token,
+        ERC20 _token,
         IStargateRouter _stargateRouter
-    ) NonblockingLzApp(_lzEndpoint) {
+    ) NonblockingLzApp(_lzEndpoint) Owned(msg.sender) {
         dstChainId = _chainId;
         srcPoolId = _srcPoolId;
         dstPoolId = _dstPoolId;
