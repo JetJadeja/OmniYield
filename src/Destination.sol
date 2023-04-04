@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "./lzApp/NonblockingLzApp.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "solmate/tokens/ERC20.sol";
 import "./interfaces/IStargateRouter.sol";
 
 interface Vault {
@@ -13,7 +13,7 @@ interface Vault {
 }
 
 contract Destination is NonblockingLzApp {
-    IERC20 public token;
+    ERC20 public token;
     
     // Pool Id of the Destination chain
     uint256 public srcPoolId;
@@ -29,10 +29,10 @@ contract Destination is NonblockingLzApp {
         uint256 _srcPoolId, 
         uint256 _poolId,
         address _srcAddress,
-        IERC20 _src_coin, 
-        IERC20 _dst_coin,
+        ERC20 _src_coin, 
+        ERC20 _dst_coin,
         Vault _yearnVault
-    ) NonblockingLzApp(_lzEndpoint) {
+    ) NonblockingLzApp(_lzEndpoint) Owned(msg.sender) {
         srcPoolId = _srcPoolId;
         src[_srcChainId].allowed = true;
         src[_srcChainId].poolId = _poolId;
@@ -50,7 +50,7 @@ contract Destination is NonblockingLzApp {
         bool allowed;
         uint256 poolId;
         address srcAddress;
-        IERC20 token;
+        ERC20 token;
     }
 
     mapping (address => UserData) public user;
@@ -104,7 +104,7 @@ contract Destination is NonblockingLzApp {
         bool _allowed, 
         uint256 _poolId, 
         address _srcAddress, 
-        IERC20 _token
+        ERC20 _token
     ) onlyOwner external {
         src[_chainId].allowed = _allowed;
         src[_chainId].poolId = _poolId;
